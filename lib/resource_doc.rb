@@ -46,22 +46,22 @@ class ResourceDoc
     File.open(controller_location).each do |line|
         if line =~ /=begin apidoc/
           current_scope = !inclass ? :class : :function
-          puts "-"*30
-          puts ">>> found: =begin apidoc"
-          puts "#{current_scope}"
-          puts "-"*30; puts ""
+          # puts "-"*30
+          # puts ">>> found: =begin apidoc"
+          # puts "#{current_scope}"
+          # puts "-"*30; puts ""
           current_api_block = MethodDoc.new(current_scope)
         elsif line =~ /=end/
           if current_api_block.nil? 
-            puts "#{controller_location}:#{lineno} - No starttag for =end found"
+            # puts "#{controller_location}:#{lineno} - No starttag for =end found"
             exit
           elsif current_api_block.scope == :class
             @class_block = current_api_block
 
-            puts "-"*30
-            puts ">>> current_api_block.scope == :class"
-            puts "#{@class_block}"
-            puts "-"*30; puts ""
+            # puts "-"*30
+            # puts ">>> current_api_block.scope == :class"
+            # puts "#{@class_block}"
+            # puts "-"*30; puts ""
 
           elsif current_api_block.scope == :function
             @function_blocks << current_api_block
@@ -70,10 +70,10 @@ class ResourceDoc
           current_scope = :none
         elsif line =~ /class/
           inclass=true
-          puts "-"*30
-          puts ">>> found class"
-          puts "#{current_scope}"
-          puts "-"*30; puts ""
+          # puts "-"*30
+          # puts ">>> found class"
+          # puts "#{current_scope}"
+          # puts "-"*30; puts ""
         elsif line =~ /::response-end::/
           current_scope = :function
         elsif line =~ /::request-end::/
@@ -88,18 +88,18 @@ class ResourceDoc
           # check if we are dealing with a variable
           # something in the format: # varname:: sometext
           if result = /(\w+)\:\:\s*(.+)/.match(line)
-            puts "calling current_api_block.add_variable()"
+            # puts "calling current_api_block.add_variable()"
             if result[1] == "response"
-              puts "="*30
-              puts "found response"
-              puts "="*30; puts ""
-              puts line
+              # puts "="*30
+              # puts "found response"
+              # puts "="*30; puts ""
+              # puts line
               current_scope = :response
             elsif result[1] == "request"
-              puts "="*30
-              puts "found request"
-              puts line
-              puts "="*30; puts ""
+              # puts "="*30
+              # puts "found request"
+              # puts line
+              # puts "="*30; puts ""
               current_scope = :request
             else
               current_api_block.add_variable(result[1], result[2])
@@ -135,10 +135,10 @@ class ResourceDoc
     template = ""
     File.open(File.join(File.dirname(__FILE__), '..', 'templates', '_resource_header.html.erb.erb')).each { |line| template << line }
 
-    puts "-"*30
-    puts ">>> inside: get_parsed_header"
-    puts ERB.new(template).result(@class_block.get_binding)
-    puts "-"*30; puts ""
+    # puts "-"*30
+    # puts ">>> inside: get_parsed_header"
+    # puts ERB.new(template).result(@class_block.get_binding)
+    # puts "-"*30; puts ""
 
     return ERB.new(template).result(@class_block.get_binding)
   end

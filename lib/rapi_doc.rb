@@ -59,7 +59,7 @@ class RAPIDoc
 
   def copy_styles!
     Dir[File.join(File.dirname(__FILE__), '..', 'templates/*')].each do |f|
-      puts f 
+      # puts f 
       if f =~ /[\/a-zA-Z\.]+\.css$/i
         FileUtils.cp f, File.join(File.dirname(__FILE__), '..', '/structure/views/apidoc/')
       end
